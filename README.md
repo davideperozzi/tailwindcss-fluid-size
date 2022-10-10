@@ -3,9 +3,9 @@ A Tailwind CSS plugin that provides fluid fonts and spacings
 
 ## Installation
 ```sh
-npm install -D tailwindcss-fluid-spacing
+npm install -D tailwindcss-fluid-size
 // or
-yarn add -D tailwindcss-fluid-spacing
+yarn add -D tailwindcss-fluid-size
 ```
 
 And add the plugin to your `tailwind.config.js` file:
