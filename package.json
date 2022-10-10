@@ -1,0 +1,53 @@
+{
+  "name": "tailwindcss-fluid-size",
+  "version": "1.0.0",
+  "description": "A Tailwind CSS plugin that provides fluid fonts and spacings",
+  "main": "index.js",
+  "scripts": {
+    "build": "esbuild --minify --format=cjs --platform=node index.ts > index.js",
+    "publish": "yarn build && yarn publish"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/undesigned-studio/tailwindcss-fluid-size.git"
+  },
+  "keywords": [
+    "tailwind",
+    "tailwindcss",
+    "plugin",
+    "spacing",
+    "responsive",
+    "dynamic",
+    "fluid",
+    "viewport",
+    "vw",
+    "clamp",
+    "min",
+    "max",
+    "padding",
+    "margin",
+    "width",
+    "height",
+    "maxHeight",
+    "gap",
+    "inset",
+    "space",
+    "translate"
+  ],
+  "author": "UNDESIGNED Studio",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/undesigned-studio/tailwindcss-fluid-size/issues"
+  },
+  "homepage": "https://github.com/undesigned-studio/tailwindcss-fluid-size#readme",
+  "devDependencies": {
+    "esbuild": "^0.15.10",
+    "tailwindcss": "^3.1.8"
+  },
+  "peerDependencies": {
+    "tailwindcss": ">=3.0.0"
+  }
+}
