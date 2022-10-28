@@ -315,7 +315,7 @@ export default () => {
               // conjunction with breakpoints.
               //
               // For Example: <div class="lg:-mt-xs1"></div> would fail
-              // Instead <div class="lg:ng-mt-xs1"></div> can be used
+              // Instead <div class="lg:neg-mt-xs1"></div> can be used
               options[`.neg-${cls}`] = fluidsize(
                 props,
                 size,
