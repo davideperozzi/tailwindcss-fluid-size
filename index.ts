@@ -173,10 +173,18 @@ const fluidsize = (
   size: FluidSizeProp,
   view: { min: number, max: number },
   keep: { min: boolean, max: boolean } = { min: false, max: false },
+  ng = false,
   options: CSSRuleObject = {}
 ) => {
+  size = { ...size };
+
   if ( ! (prop instanceof Array)) {
     prop = [prop];
+  }
+
+  if (ng) {
+    size.min *= -1;
+    size.max *= -1;
   }
 
   const queryMin = `@media only screen and (min-width: ${view.min}px)`;
@@ -212,7 +220,7 @@ const fluidsize = (
 }
 
 const cloneObject = <T>(obj: T): T => JSON.parse(JSON.stringify(obj));
-const utilProps: { [name: string]: { props: string[] } } = {
+const utilProps: { [name: string]: { props: string[], negate?: boolean } } = {
   'p': { props: ['padding'] },
   'pt': { props: ['padding-top'] },
   'pb': { props: ['padding-bottom'] },
@@ -220,25 +228,32 @@ const utilProps: { [name: string]: { props: string[] } } = {
   'pr': { props: ['padding-right'] },
   'py': { props: ['padding-top', 'padding-bottom'] },
   'px': { props: ['padding-left', 'padding-right'] },
-  'm': { props: ['margin'] },
-  'mt': { props: ['margin-top'] },
-  'mb': { props: ['margin-bottom'] },
-  'ml': { props: ['margin-left'] },
-  'mr': { props: ['margin-right'] },
-  'my': { props: ['margin-top', 'margin-bottom'] },
-  'mx': { props: ['margin-left', 'margin-right'] },
-  'max-w': { props: ['width'] },
-  'min-h': { props: ['height'] },
+  'm': { props: ['margin'], negate: true },
+  'mt': { props: ['margin-top'], negate: true },
+  'mb': { props: ['margin-bottom'], negate: true },
+  'ml': { props: ['margin-left'], negate: true },
+  'mr': { props: ['margin-right'], negate: true },
+  'my': { props: ['margin-top', 'margin-bottom'], negate: true },
+  'mx': { props: ['margin-left', 'margin-right'], negate: true },
+  'max-w': { props: ['max-width'] },
+  'min-w': { props: ['min-width'] },
+  'min-h': { props: ['min-height'] },
+  'max-h': { props: ['max-height'] },
+  'leading': { props: ['line-height'] },
+  'tracking': { props: ['letter-spacing'], negate: true },
+  'opacity': { props: ['opacity'] },
   'h': { props: ['height'] },
   'w': { props: ['width'] },
   'gap': { props: ['gap'] },
-  'gap-x': { props: ['column-gap'] },
-  'gap-y': { props: ['row-gap'] },
-  'inset': { props: ['top', 'right', 'bottom', 'left'] },
-  'inset-x': { props: ['left', 'right'] },
-  'inset-y': { props: ['top', 'right'] },
-  'bottom': { props: ['bottom'] },
-  'top': { props: ['top'] }
+  'gap-x': { props: ['column-gap'], negate: true },
+  'gap-y': { props: ['row-gap'], negate: true },
+  'inset': { props: ['top', 'right', 'bottom', 'left'], negate: true },
+  'inset-x': { props: ['left', 'right'], negate: true },
+  'inset-y': { props: ['top', 'right'], negate: true },
+  'left': { props: ['left'], negate: true },
+  'right': { props: ['right'], negate: true },
+  'bottom': { props: ['bottom'], negate: true },
+  'top': { props: ['top'], negate: true }
 };
 
 export default () => {
@@ -281,10 +296,34 @@ export default () => {
           const options: CSSRuleObject = {};
 
           for (const name in utilProps) {
-            const { props } = utilProps[name];
-            const cls = `.${e(`${name}${prefix ? `-${prefix}` : ''}-${key}`)}`;
+            const { props, negate } = utilProps[name];
+            const cls = `${e(`${name}${prefix ? `-${prefix}` : ''}-${key}`)}`;
 
-            options[cls] = fluidsize(props, size, viewSize, spaceKeep);
+            options[`.${cls}`] = fluidsize(props, size, viewSize, spaceKeep);
+
+            if (negate) {
+              options[`.-${cls}`] = fluidsize(
+                props,
+                size,
+                viewSize,
+                spaceKeep,
+                true
+              );
+
+              // This is a fallback, since tailwind has a bug where it fails to
+              // generate valid CSS code when utility classes are being used in
+              // conjunction with breakpoints.
+              //
+              // For Example: <div class="lg:-mt-xs1"></div> would fail
+              // Instead <div class="lg:ng-mt-xs1"></div> can be used
+              options[`.neg-${cls}`] = fluidsize(
+                props,
+                size,
+                viewSize,
+                spaceKeep,
+                true
+              );
+            }
           }
 
           return options;
