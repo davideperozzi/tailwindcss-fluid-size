@@ -205,9 +205,9 @@ const fluidsize = (
   }
 
   prop.forEach(key => {
-    (options[queryMin] as CSSRuleObject)[key] = `calc(
-      ${size.min}px + (${size.max} - ${size.min}) *
-      (100vw - ${view.min}px) / (${view.max} - ${view.min}))`;
+    (options[queryMin] as CSSRuleObject)[key] = `calc(`
+      + `${size.min}px + (${size.max} - ${size.min}) *`
+      + `(100vw - ${view.min}px) / (${view.max} - ${view.min}))`;
 
     (options[queryMax] as CSSRuleObject)[key] = (
       keep.max && size.maxKeep !== false
