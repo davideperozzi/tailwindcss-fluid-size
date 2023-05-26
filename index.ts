@@ -241,6 +241,7 @@ const utilProps: { [name: string]: { props: string[], negate?: boolean } } = {
   'max-h': { props: ['max-height'] },
   'leading': { props: ['line-height'] },
   'tracking': { props: ['letter-spacing'], negate: true },
+  'indent': { props: ['text-indent'], negate: true },
   'opacity': { props: ['opacity'] },
   'h': { props: ['height'] },
   'w': { props: ['width'] },

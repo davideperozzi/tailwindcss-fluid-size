@@ -1,11 +1,11 @@
 {
   "name": "tailwindcss-fluid-size",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A Tailwind CSS plugin that provides fluid fonts and spacings",
   "main": "index.js",
   "scripts": {
     "build": "esbuild --minify --format=cjs --platform=node index.ts > index.js && tsc",
-    "publish": "yarn build && yarn publish"
+    "publish": "yarn build && yarn npm publish"
   },
   "files": [
     "index.js",
